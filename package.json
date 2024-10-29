@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.3",
     "react-router-dom": "^6.27.0"
   }
 }
