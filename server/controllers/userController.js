@@ -3,36 +3,32 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
-
-const checkValidUser=async(req, res)=>{
+const userValidation=async(req, res)=>{
   const token = req.header("x-auth-token");
+
   if (!token) return res.json(false);
   const verified = jwt.verify(token, "raj1234");
   if (!verified) return res.json(false);
-  const user = await UserModel.findById(verified.id);
+   return res.json(true);
 
-  if (!user) return res.json(false);
-
-    return res.json(user);
 }
 
 
-
-const userSave=async(req, res)=>{
-   const {name, email, password} = req.body;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-   
-   
-    const User= await UserModel.create({
-        name: name,
-        email: email,
-        password: hashedPassword,
-    })
-    res.status(201).send({msg:"registration Successfull"});
+const userRegistration=async(req, res)=>{
+        const {username, email, password}= req.body;
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);      
+        const Data= await UserModel.create({
+            username:username,
+            email:email,
+            password:hashedPassword
+        })
+        res.send("OK");
 }
+
 
 const userLogin=async(req, res)=>{
+
     const {email, password} = req.body;
     const User = await UserModel.findOne({
         email: email
@@ -58,18 +54,12 @@ const userLogin=async(req, res)=>{
         });
         return;
       }
-
-
-      
-      const token = jwt.sign({ id: User._id, name:User.name, email:User.email }, "raj1234");
-
-      res.json({ token, user: { id: User._id, username: User.name } });
-      
-
+  const token = jwt.sign({ id: User._id, name:User.name, email:User.email }, "ankita1234");
+      res.json({ token, user: { id: User._id, username: User.username } });
 }
 
 module.exports={
-    userSave,
-    userLogin,
-    checkValidUser
+     userRegistration,
+     userLogin,
+     userValidation
 }

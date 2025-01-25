@@ -1,21 +1,26 @@
 const express = require("express");
-const app= express();
+const app=express();
+
+
 const mongoose= require("mongoose");
-var cors = require('cors');
-const  bodyParser = require('body-parser')
-const userRouter= require("./routes/userRouter");
+const bodyparser = require('body-parser')
+
+const cors= require("cors");
+const userRouter= require("./routes/userRouters");
+
+
+
+app.use(cors());
+
+app.use(bodyparser.urlencoded({ extended: true }))
+app.use(bodyparser.json())
+
 mongoose.connect("mongodb://127.0.0.1:27017/jwt12pm").then(()=>{
-    console.log("Data base Connected!")
+    console.log("Data base Connected!");
 })
 
-
-
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-
-app.use(cors())
 app.use("/user", userRouter);
 
 app.listen(8000, ()=>{
-    console.log("Server Run on 8000")
-});
+    console.log("server run on 8000 Port!");
+})

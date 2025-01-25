@@ -1,29 +1,31 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-const Dashboard=()=>{
-    const [userName, setUserName]=useState("");
-    const navigate= useNavigate();
-     
-    useEffect(()=>{
-      let Uname= localStorage.getItem("username");
-       setUserName(Uname);
-    }, [])
-    
 
-     const logout=()=>{
+const DashBoard=()=>{
+    const [username, setUsername]= useState("");
+    const navigate= useNavigate();
+    useEffect(()=>{
+        setUsername(localStorage.getItem("uname"));
+    }, [])
+
+
+    const logout=()=>{
         localStorage.clear();
         navigate("/home");
-     }
 
-    
+    }
     return(
         <>
-        <h1> Dashboard</h1>
-        <h4> Welcome : {userName} !   </h4>
+          <h1> User Dashboard!!!</h1>
+          <h2> Welcome : {username} !  
 
-<button onClick={logout}> Logout </button>
+            <button onClick={logout}>Logout</button>
+          </h2>
+
 
         </>
     )
 }
-export default Dashboard;
+
+export default DashBoard;
